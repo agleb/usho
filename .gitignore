@@ -5,6 +5,7 @@
 /.fetch
 /data*
 /log*
+/.elixir_ls
 erl_crash.dump
 *.ez
 *.beam
