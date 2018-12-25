@@ -1,6 +1,8 @@
 # usho
 Elixir/Phoenix/Redis URL shortener
 
+A 2019 New Year present for the community!
+
 # Concept
 
 1. Use Redis as a data storage.
