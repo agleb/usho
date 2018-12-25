@@ -34,6 +34,7 @@ Metrics and logging collection/pushing schemes are out of the task boundaries.
 Add records to your hosts file:
 
 a1.b1.c1.d1 usho
+
 a2.b2.c2.d2 redis
 
 which should point to your Phoenix and Redis instances respectively.
@@ -41,6 +42,7 @@ which should point to your Phoenix and Redis instances respectively.
 Then run:
 
 mix deps.get
+
 mix phx.server
 
 # License
