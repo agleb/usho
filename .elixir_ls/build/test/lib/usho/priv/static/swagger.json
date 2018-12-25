@@ -1,0 +1,234 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/{signature}": {
+      "get": {
+        "tags": [
+          "Main"
+        ],
+        "summary": "Find the signature==path and send 302 redirect to the initial address.",
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "302": {
+            "description": "Ok"
+          }
+        },
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "signature",
+            "in": "path",
+            "description": "signature"
+          }
+        ],
+        "operationId": "UshoWeb.MainController.main",
+        "description": "Replace tokens like <%token%> with the same-named values from GET parameters"
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Returns API version",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        },
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [],
+        "operationId": "UshoWeb.APIController.version",
+        "description": ""
+      }
+    },
+    "/api/ping": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Pings the API server",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        },
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [],
+        "operationId": "UshoWeb.APIController.ping",
+        "description": "Returns 'pong' if the server is operational."
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Returns metrics",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        },
+        "parameters": [],
+        "operationId": "UshoWeb.APIController.metrics",
+        "description": "Metrics are collected by Alchemetrics."
+      }
+    },
+    "/api/log": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Returns 100 most recent server log records in JSON",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        },
+        "parameters": [],
+        "operationId": "UshoWeb.APIController.log",
+        "description": "Log is instrumented by RingLogger."
+      }
+    },
+    "/api/get_stats": {
+      "post": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Returns hits statistics for a given URL signature",
+        "responses": {
+          "404": {
+            "description": "Invalid URL"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UshoURLStats"
+            },
+            "description": "Ok"
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "signature",
+            "in": "query",
+            "description": "URL signature"
+          }
+        ],
+        "operationId": "UshoWeb.APIController.get_stats",
+        "description": ""
+      }
+    },
+    "/api/create": {
+      "post": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Register a URL",
+        "responses": {
+          "404": {
+            "description": "Invalid URL"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UshoURL"
+            },
+            "description": "Ok"
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "url",
+            "in": "query",
+            "description": "URL"
+          }
+        ],
+        "operationId": "UshoWeb.APIController.create",
+        "description": "Takes a URL and saves it in the database."
+      }
+    }
+  },
+  "info": {
+    "version": "0.1.0",
+    "title": "Usho"
+  },
+  "host": "usho:4000",
+  "definitions": {
+    "UshoUrlHistoryRecord": {
+      "type": "object",
+      "title": "Shortened URL history record.",
+      "required": [
+        "timestamp"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "description": "timestamp"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UshoUrlHistoryHitHeadersRecord"
+          }
+        }
+      }
+    },
+    "UshoUrlHistoryHitHeadersRecord": {
+      "type": "object",
+      "title": "Shortened URL history record.",
+      "required": [
+        "header_value",
+        "header"
+      ],
+      "properties": {
+        "header_value": {
+          "type": "string",
+          "description": "header_value"
+        },
+        "header": {
+          "type": "string",
+          "description": "header"
+        }
+      }
+    },
+    "UshoURLStats": {
+      "type": "object",
+      "title": "Hits statistics for a shortened URL.",
+      "properties": {
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UshoUrlHistoryRecord"
+          }
+        }
+      }
+    },
+    "UshoURL": {
+      "type": "object",
+      "title": "Shortened URL container.",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL"
+        }
+      }
+    }
+  }
+}

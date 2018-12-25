@@ -1,0 +1,35 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - back-tier
+    volumes:
+      - redis-data:/data
+  usho:
+    build:
+      context: .
+    image: usho
+    links:
+      - redis
+    environment:
+      PORT: 4000
+    ports:
+      - 4000:4000
+    depends_on:
+      - redis
+    restart: always
+    networks:
+      - front-tier
+      - back-tier
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+
+volumes:
+  redis-data:
+  
