@@ -2,10 +2,6 @@ defmodule UshoTest do
   use ExUnit.Case
   doctest Usho
 
-  test "hashid generation" do
-    assert "AJn" == Usho.HashID.get(123)
-  end
-
   test "put url - get url" do
     assert {:ok, tag} =
              Usho.put_url(
